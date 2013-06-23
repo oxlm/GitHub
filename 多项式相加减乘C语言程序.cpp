@@ -145,135 +145,63 @@ void CreatPoly(LinkList &L)     //产生多项式链表
 
 polynomial AddPoly(polynomial &ha,polynomial &hb)      //两个多项式相加
 {
-	polynomial hc,p,q,s,r;
-	float x;
-	p = ha; q = hb;
-	hc = (polynomial)malloc(sizeof(LNode));
-	r = hc;
-    while((p != NULL) && (q != NULL))
-	{
-        s = r;
-		if(p->expn == q->expn)             //两结点指数相等时
-		{
-			x = p->coef + q->coef;        //系数相加
-			if((abs(x)) > 10e-6)
-			{
-			    r->coef = x;
-			    r->expn = p->expn;
-                r->next = (polynomial)malloc(sizeof(LNode));
-                r = r->next;
-			}
-			p = p->next;
-			q = q->next;
-		}
-		else if(p->expn < q->expn)   //两结点指数不相等时
-        {
-            r->coef = q->coef;
-            r->expn = q->expn;
-            r->next = (polynomial)malloc(sizeof(LNode));
-            r = r->next;
-            q = q->next;
-        }
-        else           //p->expn > q->expn时
-        {
-            r->coef = p->coef;
-            r->expn = p->expn;
-            r->next = (polynomial)malloc(sizeof(LNode));
-            r = r->next;
-            p = p->next;
-        }
-	}
+    polynomial p,q,r,hc;
 
-	while(p!=NULL)              //p!=NULL，复制A的剩余部分
-	{
-        s = r;
+    p = ha;
+    q = hb;
+
+    hc = (polynomial)malloc(sizeof(LNode));
+    r = hc;
+
+    while(p != NULL)
+    {
         r->coef = p->coef;
         r->expn = p->expn;
         r->next = (polynomial)malloc(sizeof(LNode));
         r = r->next;
         p = p->next;
-	}
+    }
 
-    while(q!=NULL)              //q!=NULL，复制B的剩余部分
-	{
-        s = r;
+    while(q != NULL)
+    {
         r->coef = q->coef;
         r->expn = q->expn;
         r->next = (polynomial)malloc(sizeof(LNode));
         r = r->next;
         q = q->next;
-	}
-
-	s->next = NULL;       //链成单链表
-    free(r);
+    }
+    r->next = NULL;
 	return (SortPoly(hc));
 } //end AddPoly
 
 polynomial DecPoly(polynomial &ha,polynomial &hb)      //两个多项式相减
 {
-	polynomial hc,p,q,s,r;
-	float x;
-	p = ha; q = hb;
-	hc = (polynomial)malloc(sizeof(LNode));
-	hc->coef = 0;
-	hc->expn = 0;
-	r ->next = NULL;
-	r = hc;
-    while((p != NULL) && (q != NULL))
-	{
-        s = r;
-		if(p->expn == q->expn)             //两结点指数相等时
-		{
-			x = p->coef - q->coef;        //系数相加
-			if((abs(x)) > 10e-6)
-			{
-			    r->coef = x;
-			    r->expn = p->expn;
-                r->next = (polynomial)malloc(sizeof(LNode));
-                r = r->next;
-			}
-			p = p->next;
-			q = q->next;
-		}
-		else if(p->expn < q->expn)   //两结点指数不相等时
-        {
-            r->coef = -(q->coef);
-            r->expn = q->expn;
-            r->next = (polynomial)malloc(sizeof(LNode));
-            r = r->next;
-            q = q->next;
-        }
-        else           //p->expn > q->expn时
-        {
-            r->coef = p->coef;
-            r->expn = p->expn;
-            r->next = (polynomial)malloc(sizeof(LNode));
-            r = r->next;
-            p = p->next;
-        }
-	}
+    polynomial p,q,r,hc;
 
-	while(p!=NULL)              //p!=NULL，复制A的剩余部分
-	{
-        s = r;
+    p = ha;
+    q = hb;
+
+    hc = (polynomial)malloc(sizeof(LNode));
+    r = hc;
+
+    while(p != NULL)
+    {
         r->coef = p->coef;
         r->expn = p->expn;
         r->next = (polynomial)malloc(sizeof(LNode));
         r = r->next;
         p = p->next;
-	}
+    }
 
-    while(q!=NULL)              //q!=NULL，复制B的剩余部分
-	{
-        s = r;
-        r->coef = -(q->coef);
+    while(q != NULL)
+    {
+        r->coef = -q->coef;
         r->expn = q->expn;
         r->next = (polynomial)malloc(sizeof(LNode));
         r = r->next;
         q = q->next;
-	}
-	s->next = NULL;       //链成单链表
-    free(r);
+    }
+    r->next = NULL;
 	return (SortPoly(hc));
 } //end DecPoly
 
@@ -342,8 +270,8 @@ int main()            //主程序
         hd = MultiPoly(ha,hb);
         PrintPoly(hd);
 
-        Flag = getchar();
         setbuf(stdin,NULL);
+        Flag = getchar();
     }
 
 	return 0;
